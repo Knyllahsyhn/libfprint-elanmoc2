@@ -33,16 +33,16 @@
 %%{init: {'gitGraph': {'mainBranchName': 'libfprint master'}}}%%
 gitGraph
   commit id: "1.94.9 (Jul 2025)"
-  branch "MR !330 (Depau)"
+  branch "MR !330 (Depau)" order: 2
   commit id: "elanmoc2 driver"
   commit id: "WIP fixes (2024/2025)"
   checkout "libfprint master"
   commit id: "~260 upstream commits"
   commit id: "1.94.100" tag: "v1.94.100"
   commit id: "master (Nov 2026)"
-  branch "elanmoc2 (this fork)"
-  cherry-pick id: "elanmoc2 driver"
-  cherry-pick id: "WIP fixes (2024/2025)"
+  branch "elanmoc2 (this fork)" order: 1
+  commit id: "elanmoc2 driver (from !330)"
+  commit id: "WIP fixes (from !330)"
   commit id: "no finger timeout"
   commit id: "STORAGE in driver"
   commit id: "hwdb, tests, PKGBUILD"
