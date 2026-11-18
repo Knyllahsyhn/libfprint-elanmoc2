@@ -1,3 +1,24 @@
+> [!NOTE]
+> **Unofficial fork.** This repository carries the experimental `elanmoc2`
+> driver for ELAN Match-on-Chip sensors (04f3:0c4c and related) from
+> Davide Depau's branch in
+> [libfprint MR !330](https://gitlab.freedesktop.org/libfprint/libfprint/-/merge_requests/330).
+> It is not part of the official libfprint release.
+>
+> **Changes on top of that branch**
+>
+> - Identify and enroll wait for a finger without timeout. With the fixed
+>   10 s timeout, verify ended with `transfer timed out` and the KDE lock
+>   screen dropped fingerprint unlock
+>   ([5767a17](https://github.com/Knyllahsyhn/libfprint-elanmoc2/commit/5767a17)).
+> - Arch Linux PKGBUILD in [`packaging/arch/`](packaging/arch/). Build and
+>   install with `makepkg -si`. It replaces `libfprint` and
+>   `libfprint-elanmoc2-git`.
+>
+> The branch is rebased onto Depau's branch when it changes. Driver bugs
+> unrelated to these changes belong in MR !330. Once the driver is merged
+> into libfprint, this fork will be archived.
+
 
 
 <div align="center">
