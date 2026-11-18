@@ -1,23 +1,31 @@
 > [!NOTE]
-> **Unofficial fork.** This repository carries the experimental `elanmoc2`
-> driver for ELAN Match-on-Chip sensors (04f3:0c4c and related) from
-> Davide Depau's branch in
+> **Unofficial fork.** This repository is current upstream libfprint with
+> the experimental `elanmoc2` driver for ELAN Match-on-Chip sensors
+> (04f3:0c4c and related) from Davide Depau's branch in
 > [libfprint MR !330](https://gitlab.freedesktop.org/libfprint/libfprint/-/merge_requests/330).
 > It is not part of the official libfprint release.
 >
-> **Changes on top of that branch**
+> **Changes compared to that branch**
 >
+> - Based on upstream master instead of libfprint 1.94.9.
 > - Identify and enroll wait for a finger without timeout. With the fixed
 >   10 s timeout, verify ended with `transfer timed out` and the KDE lock
->   screen dropped fingerprint unlock
->   ([5767a17](https://github.com/Knyllahsyhn/libfprint-elanmoc2/commit/5767a17)).
+>   screen dropped fingerprint unlock.
+> - The libfprint core is unchanged. The MR branch modified storage
+>   handling in the core for all drivers; the driver now sets the
+>   `STORAGE` feature itself.
+> - The outdated elanmoc2 umockdev test is not registered, so the rest of
+>   the test suite passes.
 > - Arch Linux PKGBUILD in [`packaging/arch/`](packaging/arch/). Build and
 >   install with `makepkg -si`. It replaces `libfprint` and
 >   `libfprint-elanmoc2-git`.
 >
-> The branch is rebased onto Depau's branch when it changes. Driver bugs
-> unrelated to these changes belong in MR !330. Once the driver is merged
-> into libfprint, this fork will be archived.
+> The branch is rebased onto upstream releases. New commits on the MR
+> branch are cherry-picked. Do not run `sync-udev-hwdb`: it pulls the
+> unsupported device list from the upstream wiki, which still lists the
+> elanmoc2 devices. Driver bugs unrelated to these changes belong in
+> MR !330. Once the driver is merged into libfprint, this fork will be
+> archived.
 
 
 
