@@ -27,6 +27,36 @@
 > MR !330. Once the driver is merged into libfprint, this fork will be
 > archived.
 
+### Where this fork sits
+
+```mermaid
+%%{init: {'gitGraph': {'mainBranchName': 'libfprint master'}}}%%
+gitGraph
+  commit id: "1.94.9 (Jul 2025)"
+  branch "MR !330 (Depau)"
+  commit id: "elanmoc2 driver"
+  commit id: "WIP fixes (2024/2025)"
+  checkout "libfprint master"
+  commit id: "~260 upstream commits"
+  commit id: "1.94.100" tag: "v1.94.100"
+  commit id: "master (Nov 2026)"
+  branch "elanmoc2 (this fork)"
+  cherry-pick id: "elanmoc2 driver"
+  cherry-pick id: "WIP fixes (2024/2025)"
+  commit id: "no finger timeout"
+  commit id: "STORAGE in driver"
+  commit id: "hwdb, tests, PKGBUILD"
+```
+
+| Branch | Repository | Content |
+| --- | --- | --- |
+| `master` | [libfprint/libfprint](https://gitlab.freedesktop.org/libfprint/libfprint) | Official libfprint, no elanmoc2 driver |
+| `elanmoc2` | [depau/libfprint](https://gitlab.freedesktop.org/depau/libfprint/-/tree/elanmoc2) | Driver from MR !330, based on libfprint from July 2025 |
+| `elanmoc2` | this repository | Current libfprint master with the driver from MR !330 and the changes listed above |
+
+The AUR package `libfprint-elanmoc2-git` builds Depau's branch. The
+PKGBUILD in this repository builds this fork.
+
 
 
 <div align="center">
