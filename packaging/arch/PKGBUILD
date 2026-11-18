@@ -1,20 +1,43 @@
-# Build of the experimental elanmoc2 driver (ELAN 04f3:0c4c and related
-# Match-on-Chip sensors) from https://github.com/Knyllahsyhn/libfprint-elanmoc2.
+# libfprint from upstream master with the experimental elanmoc2 driver
+# (ELAN 04f3:0c4c and related Match-on-Chip sensors) from
+# https://github.com/Knyllahsyhn/libfprint-elanmoc2.
 #
-# Based on the AUR package libfprint-elanmoc2-git by Davide Depau.
+# Build setup follows the Arch Linux libfprint package. The driver comes
+# from the AUR package libfprint-elanmoc2-git by Davide Depau.
 
 pkgname=libfprint-elanmoc2-knyl-git
 _pkgname=libfprint
-pkgver=1.94.0+373+g0000000
+pkgver=1.94.100+0+g0000000
 pkgrel=1
 pkgdesc="Library for fingerprint readers, with the elanmoc2 driver for ELAN 0C4C"
 url="https://github.com/Knyllahsyhn/libfprint-elanmoc2"
 arch=(x86_64)
 license=(LGPL-2.1-or-later)
-depends=(libgusb pixman nss systemd libgudev)
-makedepends=(git meson gtk-doc gobject-introspection glib2-devel)
+depends=(
+  libgcc
+  glib2
+  glibc
+  libgudev
+  libgusb
+  openssl
+  pixman
+)
+makedepends=(
+  git
+  glib2-devel
+  gobject-introspection
+  gtk-doc
+  meson
+  python-cairo
+  python-gobject
+  systemd
+)
+checkdepends=(
+  cairo
+  umockdev
+)
 conflicts=(libfprint libfprint-elanmoc2-git)
-provides=(libfprint=1.94.0 libfprint-2.so)
+provides=("libfprint=${pkgver%%+*}" libfprint-2.so)
 groups=(fprint)
 source=("$_pkgname::git+https://github.com/Knyllahsyhn/libfprint-elanmoc2.git#branch=elanmoc2")
 sha256sums=('SKIP')
@@ -25,14 +48,18 @@ pkgver() {
 }
 
 build() {
-  arch-meson $_pkgname build
+  local meson_options=(
+    -D drivers=all
+    -D installed-tests=false
+  )
+
+  arch-meson $_pkgname build "${meson_options[@]}"
   meson compile -C build
 }
 
-# No check(): the elanmoc2 umockdev test inherited from upstream MR !330
-# asserts STORAGE_LIST and replays list/delete transfers, which commit
-# a9b1450 removed from the driver. It fails with and without this fork's
-# changes and needs a new recording from real hardware.
+check() {
+  meson test -C build --print-errorlogs
+}
 
 package() {
   meson install -C build --destdir "$pkgdir"
