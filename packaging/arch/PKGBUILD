@@ -1,0 +1,39 @@
+# Build of the experimental elanmoc2 driver (ELAN 04f3:0c4c and related
+# Match-on-Chip sensors) from https://github.com/Knyllahsyhn/libfprint-elanmoc2.
+#
+# Based on the AUR package libfprint-elanmoc2-git by Davide Depau.
+
+pkgname=libfprint-elanmoc2-knyl-git
+_pkgname=libfprint
+pkgver=1.94.0+373+g0000000
+pkgrel=1
+pkgdesc="Library for fingerprint readers, with the elanmoc2 driver for ELAN 0C4C"
+url="https://github.com/Knyllahsyhn/libfprint-elanmoc2"
+arch=(x86_64)
+license=(LGPL-2.1-or-later)
+depends=(libgusb pixman nss systemd libgudev)
+makedepends=(git meson gtk-doc gobject-introspection glib2-devel)
+checkdepends=(cairo umockdev)
+conflicts=(libfprint libfprint-elanmoc2-git)
+provides=(libfprint=1.94.0 libfprint-2.so)
+groups=(fprint)
+source=("$_pkgname::git+https://github.com/Knyllahsyhn/libfprint-elanmoc2.git#branch=elanmoc2")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd $_pkgname
+  git describe --tags | sed 's/^v//;s/^V_//;s/_/./g;s/-/+/g'
+}
+
+build() {
+  arch-meson $_pkgname build
+  meson compile -C build
+}
+
+check() {
+  meson test -C build --print-errorlogs elanmoc2
+}
+
+package() {
+  meson install -C build --destdir "$pkgdir"
+}
