@@ -13,7 +13,6 @@ arch=(x86_64)
 license=(LGPL-2.1-or-later)
 depends=(libgusb pixman nss systemd libgudev)
 makedepends=(git meson gtk-doc gobject-introspection glib2-devel)
-checkdepends=(cairo umockdev)
 conflicts=(libfprint libfprint-elanmoc2-git)
 provides=(libfprint=1.94.0 libfprint-2.so)
 groups=(fprint)
@@ -30,9 +29,10 @@ build() {
   meson compile -C build
 }
 
-check() {
-  meson test -C build --print-errorlogs elanmoc2
-}
+# No check(): the elanmoc2 umockdev test inherited from upstream MR !330
+# asserts STORAGE_LIST and replays list/delete transfers, which commit
+# a9b1450 removed from the driver. It fails with and without this fork's
+# changes and needs a new recording from real hardware.
 
 package() {
   meson install -C build --destdir "$pkgdir"
