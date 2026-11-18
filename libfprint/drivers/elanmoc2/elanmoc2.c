@@ -1192,6 +1192,11 @@ fpi_device_elanmoc2_class_init (FpiDeviceElanMoC2Class *klass)
   dev_class->cancel = elanmoc2_cancel;
 
   fpi_device_class_auto_initialize_features (dev_class);
+  /* Prints are stored on the sensor, but listing and deleting single prints
+   * is not implemented, so auto-initialization does not set STORAGE. With
+   * STORAGE but without STORAGE_LIST, fprintd clears the sensor before the
+   * first enrollment of a user. */
+  dev_class->features |= FP_DEVICE_FEATURE_STORAGE;
   dev_class->features |= FP_DEVICE_FEATURE_DUPLICATES_CHECK;
   dev_class->features |= FP_DEVICE_FEATURE_UPDATE_PRINT;
 }
