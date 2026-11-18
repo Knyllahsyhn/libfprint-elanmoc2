@@ -109,8 +109,11 @@ elanmoc2_cmd_usb_callback (FpiUsbTransfer *transfer,
       fpi_usb_transfer_fill_bulk (transfer_in, cmd->ep_in,
                                   cmd->in_len);
 
+      /* Cancellable commands (identify, enroll) wait for a finger, so they
+       * must not time out. They are ended through the device cancellable. */
       fpi_usb_transfer_submit (transfer_in,
-                               ELANMOC2_USB_RECV_TIMEOUT,
+                               cmd->is_cancellable ?
+                               0 : ELANMOC2_USB_RECV_TIMEOUT,
                                cmd->is_cancellable ?
                                fpi_device_get_cancellable (device) : NULL,
                                elanmoc2_cmd_usb_callback,
